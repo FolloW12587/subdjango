@@ -1,0 +1,93 @@
+{% extends 'admin/change_list.html' %}
+
+{% block pagination %}{% endblock %}
+{% block object-tools %}{% endblock object-tools %}
+{% block search %}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">Home</a>
+  {% if page_name %} &rsaquo; {{ page_name }}{% endif %}
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="content-main">
+    <div class="module filtered" id="changelist">
+        <div class="changelist-form-container">
+
+            <h1 class="text-center my-4">Страница статистики</h1>
+    
+            <h2>Добавлено товаров за {{ selected_date }}:</h2>
+            <ul>
+                <li>
+                    <p>Всего: <strong>{{ wb_count|add:ozon_count }}</strong></p>
+                </li>
+                <li>
+                    <p>WB: <strong>{{ wb_count }}</strong></p>
+                </li>
+                <li>
+                    <p>Ozon: <strong>{{ ozon_count }}</strong></p>
+                </li>
+            </ul>
+            
+            <h2>Добавлено пользователей за {{ selected_date }}:</h2>
+            <ul>
+                <li>
+                    <p>{{ user_count }}</p>
+                </li>
+            </ul>
+            <br>
+            <h2>Популярные города(пункты выдачи):</h2>
+            <ol>
+                {% for city in popular_cities %}
+                    <li>{{ city.city }}:  {{ city.city_count }}</li>
+                {% endfor %}
+            </ol>
+    
+            <br>
+    
+            <h2>Популярные товары:</h2>
+            <ol>
+                {% for product in popular_products %}
+                    <li>
+                        {% if product.product_marker == 'wb' %}
+                            <p><a href="https://www.wildberries.ru/catalog/{{ product.short_link }}/detail.aspx">{{ product.name }}</a></p>
+                        {% else %}
+                            <p><a href="https://www.ozon.ru/product/{{ product.short_link }}/">{{ product.name }}</a></p>
+                        {% endif %}
+                        
+                        <p>Маркетплейс: {{ product.product_marker|upper }}</p>
+                        <p>Кол-во пользователей, отслеживающих товар: <b>{{ product.user_count }}</b></p>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    
+            <nav id="changelist-filter" aria-labelledby="changelist-filter-header">
+                <h2 id="changelist-filter-header">Фильтр</h2>
+                
+                <div style="display: flex; justify-content: center;">
+                <form method="get" class="mt-4">
+                    <div class="form-group">
+                        <label for="start_date">Выберите дату начала:</label><br>
+                        <input type="date" id="start_date" name="start_date" value="{{ start_date }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="end_date">Выберите дату окончания(необязательное поле):</label><br>
+                        <input type="date" id="end_date" name="end_date" value="{{ end_date }}">
+                    </div>
+                </div>
+                    <br>
+                    <br>
+                    <div style="display: flex; justify-content: center;">
+                        <button type="submit" class="button">Фильтровать</button>
+                    </div>
+                </form>
+            </nav>
+        </div>
+    
+    </div>
+
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+    <h1>Добро пожаловать в админку</h1>
+    <p><a href="{% url 'custom_admin_view' %}" class="button">Перейти на кастомную страницу</a></p>
+    {{ block.super }}
+{% endblock %}
