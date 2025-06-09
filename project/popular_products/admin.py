@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from main.models import Products
 
@@ -34,7 +35,16 @@ class PopularProductAdmin(admin.ModelAdmin):
     list_display = (
         "product",
         "category",
+        "clickable_link",
     )
+
+    def clickable_link(self, instance: PopularProduct):
+        return format_html(
+            '<a href="{0}" target="_blank">Перейти</a>',
+            instance.link,
+        )
+
+    clickable_link.short_description = "Link"
 
     raw_id_fields = (
         "category",
