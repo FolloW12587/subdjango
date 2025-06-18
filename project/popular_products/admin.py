@@ -97,7 +97,6 @@ class PopularProductSaleRangeAdmin(admin.ModelAdmin):
                 name="update_popular_product_discounts",
             ),
         ]
-        print(custom_urls + urls)
         return custom_urls + urls
 
     def changelist_view(self, request, extra_context=None):
