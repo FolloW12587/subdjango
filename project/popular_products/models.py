@@ -76,3 +76,21 @@ class PopularProduct(models.Model):
 
     def __str__(self):
         return f"{self.product} | {self.category}"
+
+
+class PopularProductSaleRange(models.Model):
+    start_price = models.IntegerField()
+    end_price = models.IntegerField()
+    coefficient = models.FloatField()
+
+    class Meta:
+        managed = False
+        db_table = "popular_product_sale_ranges"
+        verbose_name = "Скидка на популярный товар"
+        verbose_name_plural = "Скидки на популярный товар"
+        ordering = [
+            "start_price",
+        ]
+
+    def __str__(self):
+        return f"{self.coefficient}"

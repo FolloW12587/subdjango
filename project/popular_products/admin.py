@@ -1,9 +1,17 @@
-from django.contrib import admin
+from django.contrib import admin, messages
+from django.shortcuts import redirect
 from django.utils.html import format_html
+from django.urls import path
 
 from main.models import Products
 
-from .models import CategoryChannelLink, Category, ChannelLink, PopularProduct
+from .models import (
+    CategoryChannelLink,
+    Category,
+    ChannelLink,
+    PopularProduct,
+    PopularProductSaleRange,
+)
 from popular_products.filters import CustomCategoryFilter
 
 # Register your models here.
@@ -75,3 +83,43 @@ class ProductsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Products, ProductsAdmin)
+
+
+class PopularProductSaleRangeAdmin(admin.ModelAdmin):
+    list_display = ("start_price", "end_price", "coefficient")
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "update_discounts/",
+                self.admin_site.admin_view(self.update_discounts),
+                name="update_popular_product_discounts",
+            ),
+        ]
+        print(custom_urls + urls)
+        return custom_urls + urls
+
+    def changelist_view(self, request, extra_context=None):
+        if extra_context is None:
+            extra_context = {}
+        extra_context["custom_button"] = True
+        return super().changelist_view(request, extra_context=extra_context)
+
+    def update_discounts(self, request):
+        ranges = list(PopularProductSaleRange.objects.all().order_by("start_price"))
+        updated_count = 0
+
+        for product in PopularProduct.objects.all():
+            for r in ranges:
+                if r.start_price <= product.start_price < r.end_price:
+                    product.sale = int(product.start_price * r.coefficient)
+                    product.save(update_fields=["sale"])
+                    updated_count += 1
+                    break
+
+        self.message_user(request, f"Обновлено {updated_count} популярных товаров.", level=messages.SUCCESS)
+        return redirect("..")
+
+
+admin.site.register(PopularProductSaleRange, PopularProductSaleRangeAdmin)

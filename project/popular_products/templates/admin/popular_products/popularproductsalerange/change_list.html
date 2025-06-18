@@ -1,0 +1,14 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+  {{ block.super }}
+  <li>
+    <a
+      class="button"
+      href="{% url 'admin:update_popular_product_discounts' %}"
+      onclick="return confirm('Вы уверены, что хотите обновить скидки у всех популярных товаров? Это действие перезапишет значения.')"
+    >
+      Обновить скидки у популярных товаров
+    </a>
+  </li>
+{% endblock %}
