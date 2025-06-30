@@ -40,7 +40,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1',
                  'localhost',
-                 '5.61.53.235']
+                 '5.61.53.235', 'naskidku-bot.ru']
 
 
 LOGGING = {
