@@ -48,6 +48,7 @@ services:
       - static:/static
       - media:/media
       # - ./nginx/certs:/etc/nginx/certs
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     ports:
       # - '81:80'
       - '80:80'
