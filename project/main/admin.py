@@ -228,6 +228,8 @@ class UserProductsAdmin(admin.ModelAdmin):
 
     ordering = ("-time_create",)
 
+    search_fields = ("id", "product__name")
+
     def product_name(self, obj):
         return obj.product.name
 
