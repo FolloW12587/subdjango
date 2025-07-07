@@ -91,6 +91,7 @@ INSTALLED_APPS = [
     #
     "main.apps.MainConfig",
     "popular_products.apps.PopularProductsConfig",
+    "subscriptions.apps.SubscriptionsConfig",
     # ,
     "rangefilter",
 ]
