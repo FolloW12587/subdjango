@@ -87,6 +87,7 @@ class Order(models.Model):
         Subscription, verbose_name="Подписка", on_delete=models.CASCADE
     )
     status = models.CharField("Статус", choices=ORDER_STATUSES, max_length=255)
+    price = models.FloatField("Сумма платежа")
 
     created_at = models.DateTimeField("Создана в", auto_now=True, auto_now_add=True)
 
