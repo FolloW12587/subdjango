@@ -78,7 +78,7 @@ class UsersAdmin(admin.ModelAdmin):
         "username",
         # 'tg_id',
         # 'link_count',
-        # 'is_active',
+        "is_active",
         "get_utm_source",
         "utm__utm_campaign",
         "product_count",
@@ -111,6 +111,7 @@ class UsersAdmin(admin.ModelAdmin):
     ordering = ("-time_create",)
 
     list_filter = (
+        "is_active",
         CustomDateTimeFilter,
         ("time_create", DateRangeFilterBuilder()),
         # UTMSourceFilter,

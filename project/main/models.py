@@ -13,7 +13,7 @@ class AlembicVersion(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'alembic_version'
+        db_table = "alembic_version"
 
 
 class AuthGroup(models.Model):
@@ -21,29 +21,29 @@ class AuthGroup(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'auth_group'
+        db_table = "auth_group"
 
 
 class AuthGroupPermissions(models.Model):
     id = models.BigAutoField(primary_key=True)
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+    permission = models.ForeignKey("AuthPermission", models.DO_NOTHING)
 
     class Meta:
         managed = False
-        db_table = 'auth_group_permissions'
-        unique_together = (('group', 'permission'),)
+        db_table = "auth_group_permissions"
+        unique_together = (("group", "permission"),)
 
 
 class AuthPermission(models.Model):
     name = models.CharField(max_length=255)
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
+    content_type = models.ForeignKey("DjangoContentType", models.DO_NOTHING)
     codename = models.CharField(max_length=100)
 
     class Meta:
         managed = False
-        db_table = 'auth_permission'
-        unique_together = (('content_type', 'codename'),)
+        db_table = "auth_permission"
+        unique_together = (("content_type", "codename"),)
 
 
 class AuthUser(models.Model):
@@ -60,7 +60,7 @@ class AuthUser(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'auth_user'
+        db_table = "auth_user"
 
 
 class AuthUserGroups(models.Model):
@@ -70,8 +70,8 @@ class AuthUserGroups(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
+        db_table = "auth_user_groups"
+        unique_together = (("user", "group"),)
 
 
 class AuthUserUserPermissions(models.Model):
@@ -81,8 +81,8 @@ class AuthUserUserPermissions(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
+        db_table = "auth_user_user_permissions"
+        unique_together = (("user", "permission"),)
 
 
 class DjangoAdminLog(models.Model):
@@ -91,12 +91,14 @@ class DjangoAdminLog(models.Model):
     object_repr = models.CharField(max_length=200)
     action_flag = models.SmallIntegerField()
     change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    content_type = models.ForeignKey(
+        "DjangoContentType", models.DO_NOTHING, blank=True, null=True
+    )
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
         managed = False
-        db_table = 'django_admin_log'
+        db_table = "django_admin_log"
 
 
 class DjangoContentType(models.Model):
@@ -105,8 +107,8 @@ class DjangoContentType(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'django_content_type'
-        unique_together = (('app_label', 'model'),)
+        db_table = "django_content_type"
+        unique_together = (("app_label", "model"),)
 
 
 class DjangoMigrations(models.Model):
@@ -117,7 +119,7 @@ class DjangoMigrations(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'django_migrations'
+        db_table = "django_migrations"
 
 
 class DjangoSession(models.Model):
@@ -127,7 +129,7 @@ class DjangoSession(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'django_session'
+        db_table = "django_session"
 
 
 class OzonProducts(models.Model):
@@ -138,13 +140,15 @@ class OzonProducts(models.Model):
     sale = models.FloatField(blank=True, null=True)
     name = models.CharField(blank=True, null=True)
     time_create = models.DateTimeField(blank=True, null=True)
-    user = models.ForeignKey('Users', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey("Users", models.DO_NOTHING, blank=True, null=True)
     basic_price = models.FloatField(blank=True, null=True)
-    ozon_punkt = models.ForeignKey('OzonPunkts', models.DO_NOTHING, blank=True, null=True)
+    ozon_punkt = models.ForeignKey(
+        "OzonPunkts", models.DO_NOTHING, blank=True, null=True
+    )
 
     class Meta:
         managed = False
-        db_table = 'ozon_products'
+        db_table = "ozon_products"
 
 
 class OzonPunkts(models.Model):
@@ -152,22 +156,22 @@ class OzonPunkts(models.Model):
     city = models.CharField(blank=True, null=True)
     zone = models.BigIntegerField(blank=True, null=True)
     time_create = models.DateTimeField(blank=True, null=True)
-    user = models.ForeignKey('Users', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey("Users", models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'ozon_punkts'
+        db_table = "ozon_punkts"
 
 
 class ProductPrices(models.Model):
-    product = models.ForeignKey('Products', models.DO_NOTHING, blank=True, null=True)
+    product = models.ForeignKey("Products", models.DO_NOTHING, blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
     time_price = models.DateTimeField(blank=True, null=True)
     city = models.CharField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'product_prices'
+        db_table = "product_prices"
 
 
 class Products(models.Model):
@@ -179,9 +183,9 @@ class Products(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'products'
-        verbose_name = 'Продукт'
-        verbose_name_plural = 'Продукты'
+        db_table = "products"
+        verbose_name = "Продукт"
+        verbose_name_plural = "Продукты"
 
     def __str__(self):
         return self.name
@@ -193,11 +197,11 @@ class Punkts(models.Model):
     wb_zone = models.BigIntegerField(blank=True, null=True)
     ozon_zone = models.BigIntegerField(blank=True, null=True)
     time_create = models.DateTimeField(blank=True, null=True)
-    user = models.ForeignKey('Users', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey("Users", models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'punkts'
+        db_table = "punkts"
 
 
 class Subscriptions(models.Model):
@@ -207,7 +211,7 @@ class Subscriptions(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'subscriptions'
+        db_table = "subscriptions"
 
     def __str__(self):
         return self.name
@@ -215,47 +219,44 @@ class Subscriptions(models.Model):
 
 class UserJob(models.Model):
     job_id = models.CharField(blank=True, null=True)
-    user = models.ForeignKey('Users', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey("Users", models.DO_NOTHING, blank=True, null=True)
     product_id = models.IntegerField(blank=True, null=True)
     product_marker = models.CharField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'user_job'
+        db_table = "user_job"
 
 
 class UserProductJob(models.Model):
     job_id = models.CharField(blank=True, null=True)
-    user_product = models.ForeignKey('UserProducts', models.DO_NOTHING, blank=True, null=True)
+    user_product = models.ForeignKey(
+        "UserProducts", models.DO_NOTHING, blank=True, null=True
+    )
 
     class Meta:
         managed = False
-        db_table = 'user_product_job'
+        db_table = "user_product_job"
 
 
 class UserProducts(models.Model):
-    product = models.ForeignKey(Products,
-                                models.DO_NOTHING,
-                                verbose_name='Продукт',
-                                blank=True,
-                                null=True)
-    user = models.ForeignKey('Users',
-                             models.DO_NOTHING,
-                             verbose_name='Пользователь',
-                             blank=True,
-                             null=True)
-    link = models.CharField('Ссылка',blank=True, null=True)
-    start_price = models.IntegerField('Начальная цена',blank=True, null=True)
-    actual_price = models.IntegerField('Актуальная цена',blank=True, null=True)
-    sale = models.IntegerField('Скидка',blank=True, null=True)
-    time_create = models.DateTimeField('Время добавления',blank=True, null=True)
+    product = models.ForeignKey(
+        Products, models.DO_NOTHING, verbose_name="Продукт", blank=True, null=True
+    )
+    user = models.ForeignKey(
+        "Users", models.DO_NOTHING, verbose_name="Пользователь", blank=True, null=True
+    )
+    link = models.CharField("Ссылка", blank=True, null=True)
+    start_price = models.IntegerField("Начальная цена", blank=True, null=True)
+    actual_price = models.IntegerField("Актуальная цена", blank=True, null=True)
+    sale = models.IntegerField("Скидка", blank=True, null=True)
+    time_create = models.DateTimeField("Время добавления", blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'user_products'
-        verbose_name = 'Продукт пользователя'
-        verbose_name_plural = 'Продукты пользователей'
-
+        db_table = "user_products"
+        verbose_name = "Продукт пользователя"
+        verbose_name_plural = "Продукты пользователей"
 
 
 class Users(models.Model):
@@ -263,32 +264,29 @@ class Users(models.Model):
     username = models.CharField(blank=True, null=True)
     first_name = models.CharField(blank=True, null=True)
     last_name = models.CharField(blank=True, null=True)
-    time_create = models.DateTimeField('Время добавления',
-                                       blank=True,
-                                       null=True)
+    time_create = models.DateTimeField("Время добавления", blank=True, null=True)
     last_action = models.CharField(blank=True, null=True)
     last_action_time = models.DateTimeField(blank=True, null=True)
-    subscription = models.ForeignKey(Subscriptions,
-                                     on_delete=models.DO_NOTHING,
-                                     verbose_name='Подписка',
-                                     blank=True,
-                                     null=True)
-    utm_source = models.CharField('UTM метка',
-                                  blank=True,
-                                  null=True)
-    wb_total_count = models.IntegerField('Товары WB за всё время',
-                                         db_default=0)
-    ozon_total_count = models.IntegerField('Товары OZON за всё время',
-                                           db_default=0)
+    subscription = models.ForeignKey(
+        Subscriptions,
+        on_delete=models.DO_NOTHING,
+        verbose_name="Подписка",
+        blank=True,
+        null=True,
+    )
+    utm_source = models.CharField("UTM метка", blank=True, null=True)
+    is_active = models.BooleanField("Активный?", default=True)
+    wb_total_count = models.IntegerField("Товары WB за всё время", db_default=0)
+    ozon_total_count = models.IntegerField("Товары OZON за всё время", db_default=0)
 
     class Meta:
         managed = False
-        db_table = 'users'
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        db_table = "users"
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
     def __str__(self):
-        return f'Пользователь - ID {self.tg_id} {self.username}'
+        return f"Пользователь - ID {self.tg_id} {self.username}"
 
 
 class UTM(models.Model):
@@ -321,15 +319,14 @@ class UTM(models.Model):
     region_id = models.CharField(max_length=255, blank=True, null=True)
     yclid = models.CharField(max_length=255, blank=True, null=True)
     client_id = models.CharField(max_length=255, blank=True, null=True)
-    user = models.OneToOneField(Users, on_delete=models.CASCADE, related_name='utm')
-    
+    user = models.OneToOneField(Users, on_delete=models.CASCADE, related_name="utm")
+
     class Meta:
-        db_table = 'utms'
+        db_table = "utms"
         managed = False
 
     def __str__(self):
-        return f'{self.user.tg_id} {self.keitaro_id} {self.source}'
-
+        return f"{self.user.tg_id} {self.keitaro_id} {self.source}"
 
 
 class WbProducts(models.Model):
@@ -341,11 +338,11 @@ class WbProducts(models.Model):
     name = models.CharField(blank=True, null=True)
     time_create = models.DateTimeField(blank=True, null=True)
     user = models.ForeignKey(Users, models.DO_NOTHING, blank=True, null=True)
-    wb_punkt = models.ForeignKey('WbPunkts', models.DO_NOTHING, blank=True, null=True)
+    wb_punkt = models.ForeignKey("WbPunkts", models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'wb_products'
+        db_table = "wb_products"
 
 
 class WbPunkts(models.Model):
@@ -357,7 +354,7 @@ class WbPunkts(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'wb_punkts'
+        db_table = "wb_punkts"
 
 
 # class PopularProduct(models.Model):
