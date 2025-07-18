@@ -86,6 +86,7 @@ class UsersAdmin(admin.ModelAdmin):
         "time_create",
     )
     inlines = [UTMInline]
+    search_fields = ("username", "tg_id")
 
     def get_utm_source(self, obj):
         return (

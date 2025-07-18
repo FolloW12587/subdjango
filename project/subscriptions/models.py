@@ -31,7 +31,7 @@ class UserSubscription(models.Model):
         Subscription, verbose_name="Подписка", on_delete=models.CASCADE
     )
     active_from = models.DateField("Активна с")
-    active_to = models.DateField("Активна по")
+    active_to = models.DateField("Активна по", null=True, blank=True, default=None)
 
     class Meta:
         managed = False
