@@ -113,6 +113,7 @@ class UsersAdmin(admin.ModelAdmin):
 
     list_filter = (
         "is_active",
+        "subscription",
         CustomDateTimeFilter,
         ("time_create", DateRangeFilterBuilder()),
         # UTMSourceFilter,
