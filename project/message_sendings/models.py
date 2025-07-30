@@ -36,6 +36,13 @@ class MessageSending(models.Model):
         "Закончена в", editable=False, null=True, blank=True, default=None
     )
     text = models.TextField("Текст")
+    image = models.ImageField(
+        upload_to="message_sendings/",
+        null=True,
+        blank=True,
+        verbose_name="Изображение",
+        default=None,
+    )
 
     # Статы
     users_to_notify = models.PositiveIntegerField(

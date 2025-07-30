@@ -19,7 +19,7 @@ services:
           max-size: "20m"
     volumes:
       - static:/app/staticfiles
-      - media:/app/media
+      - ./media:/app/media
     command: sh -c "python manage.py collectstatic --no-input &&
                     gunicorn -w 1 project.wsgi:application --bind 0.0.0.0:8000"
                     # python manage.py createsuperuser --no-input &&
@@ -46,7 +46,7 @@ services:
       - django_network
     volumes:
       - static:/static
-      - media:/media
+      - ./media:/media
       # - ./nginx/certs:/etc/nginx/certs
       - /etc/letsencrypt:/etc/letsencrypt:ro
     ports:
