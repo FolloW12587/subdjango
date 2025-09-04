@@ -31,7 +31,7 @@ class UserSubscriptionModelAdmin(admin.ModelAdmin):
     list_filter = ("subscription", filters.UserSubscriptionStatusFilter)
 
     def product_count(self, obj):
-        return obj.product_count
+        return obj.product_count or 0
 
     product_count.short_description = "Число продуктов"
     product_count.admin_order_field = "product_count"
