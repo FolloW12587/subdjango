@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.db.models import Count, OuterRef, Subquery
 
-
+from main.models import UserProducts
 from . import models, filters
 
 
@@ -16,11 +17,36 @@ admin.site.register(models.Subscription, SubscriptionModelAdmin)
 
 
 class UserSubscriptionModelAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "subscription", "active_from", "active_to")
+    list_display = (
+        "id",
+        "user",
+        "subscription",
+        "active_from",
+        "active_to",
+        "product_count",
+    )
     search_fields = ("id", "user__username", "user__tg_id")
 
     list_select_related = ("user", "subscription")
     list_filter = ("subscription", filters.UserSubscriptionStatusFilter)
+
+    def product_count(self, obj):
+        return obj.product_count
+
+    product_count.short_description = "Число продуктов"
+    product_count.admin_order_field = "product_count"
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+
+        subquery = (
+            UserProducts.objects.filter(user_id=OuterRef("user_id"))
+            .values("user_id")
+            .annotate(total=Count("id"))
+            .values("total")
+        )
+
+        return queryset.annotate(product_count=Subquery(subquery))
 
 
 admin.site.register(models.UserSubscription, UserSubscriptionModelAdmin)
