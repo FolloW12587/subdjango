@@ -80,7 +80,7 @@ class UsersAdmin(admin.ModelAdmin):
         # 'link_count',
         "is_active",
         "get_utm_source",
-        "utm__utm_campaign",
+        # "utm__utm_campaign",
         "product_count",
         "product_all_time_count",
         "time_create",
@@ -88,12 +88,15 @@ class UsersAdmin(admin.ModelAdmin):
     inlines = [UTMInline]
     search_fields = ("username", "tg_id")
 
-    def get_utm_source(self, obj):
-        return (
-            obj.utm_source
-            if obj.utm_source and (obj.utm_source.find("_") != 1)
-            else obj.utm.source
-        )
+    def get_utm_source(self, obj: Users):
+        if obj.utm_source:
+            if obj.utm_source.startswith("inviter"):
+                return obj.invited_by_user
+
+            if obj.utm_source.find("_") != 1:
+                return obj.utm_source
+
+        return obj.utm.utm_source
 
     get_utm_source.short_description = "UTM источник"
 
@@ -131,6 +134,7 @@ class UsersAdmin(admin.ModelAdmin):
                     "username",
                     "first_name",
                     "last_name",
+                    "invited_by_user",
                     "subscription",
                     "utm_source",
                     "product_count",
@@ -217,6 +221,7 @@ admin.site.register(Users, UsersAdmin)
 class UserProductsAdmin(admin.ModelAdmin):
     list_display = (
         "user",
+        "user__subscription",
         "product_name",
         "product_marker",
         "time_create",

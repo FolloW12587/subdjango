@@ -276,6 +276,15 @@ class Users(models.Model):
     )
     utm_source = models.CharField("UTM метка", blank=True, null=True)
     is_active = models.BooleanField("Активный?", default=True)
+    invited_by_user = models.ForeignKey(
+        "Users",
+        on_delete=models.SET_NULL,
+        verbose_name="Кем приглашен",
+        default=None,
+        null=True,
+        blank=True,
+        db_column="invited_by_user",
+    )
     wb_total_count = models.IntegerField("Товары WB за всё время", db_default=0)
     ozon_total_count = models.IntegerField("Товары OZON за всё время", db_default=0)
 
