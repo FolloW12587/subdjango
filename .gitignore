@@ -194,3 +194,5 @@ cython_debug/
 .cursorindexingignore
 
 project/nginx/default.conf
+
+project/media/*

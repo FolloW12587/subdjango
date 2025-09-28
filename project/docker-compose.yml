@@ -49,6 +49,7 @@ services:
       - ./media:/media
       # - ./nginx/certs:/etc/nginx/certs
       - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/letsencrypt:/var/www/letsencrypt
     ports:
       # - '81:80'
       - '80:80'
@@ -59,6 +60,19 @@ services:
       driver: "json-file"
       options:
           max-size: "20m"
+  
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/letsencrypt:/var/www/letsencrypt
+    entrypoint: >
+      sh -c "trap exit TERM;
+             while :; do
+               certbot renew --webroot -w /var/www/letsencrypt --quiet;
+               sleep 12h & wait $${!};
+             done"
 
 volumes:
   static:
