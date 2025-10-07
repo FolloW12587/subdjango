@@ -60,7 +60,7 @@ class Transaction(models.Model):
     transaction_datetime = models.DateTimeField("Время транзакции")
 
     raw_data = models.TextField("Сырые данные с платежки")
-    created_at = models.DateTimeField("Создана в", auto_now=True, auto_now_add=True)
+    created_at = models.DateTimeField("Создана в", auto_now_add=True)
 
     class Meta:
         managed = False
@@ -89,7 +89,7 @@ class Order(models.Model):
     status = models.CharField("Статус", choices=ORDER_STATUSES, max_length=255)
     price = models.FloatField("Сумма платежа")
 
-    created_at = models.DateTimeField("Создана в", auto_now=True, auto_now_add=True)
+    created_at = models.DateTimeField("Создана в", auto_now_add=True)
 
     class Meta:
         managed = False
