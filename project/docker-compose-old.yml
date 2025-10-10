@@ -1,0 +1,69 @@
+services:
+
+  django_admin:
+    build: .
+    pull_policy: build
+    restart: always
+    cpus: '1.0'
+    ports:
+     - '8000:8000'
+    networks:
+      - django_network
+    environment:
+      - POSTGRES_HOST=psql_db
+    env_file:
+      - ./.env
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "20m"
+    volumes:
+      - static:/app/staticfiles
+      - ./media:/app/media
+    command: sh -c "python manage.py collectstatic --no-input &&
+                    gunicorn -w 1 project.wsgi:application --bind 0.0.0.0:8000"
+
+  nginx:
+    build: ./nginx
+    restart: always
+    container_name: nginx
+    cpus: '0.5'
+    networks:
+      - django_network
+    volumes:
+      - static:/static
+      - ./media:/media
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/letsencrypt:/var/www/letsencrypt
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - django_admin
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "20m"
+  
+  certbot:
+    restart: always
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/letsencrypt:/var/www/letsencrypt
+    entrypoint: >
+      sh -c "trap exit TERM;
+             while :; do
+               certbot renew --webroot -w /var/www/letsencrypt --quiet;
+               sleep 12h & wait $${!};
+             done"
+
+volumes:
+  static:
+  media:
+
+networks:
+  django_network:
+    name: local_network
+    external: true
