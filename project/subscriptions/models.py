@@ -26,7 +26,14 @@ class UserSubscription(models.Model):
     user = models.ForeignKey(
         Users, verbose_name="Пользователь", on_delete=models.CASCADE
     )
-    order = models.ForeignKey("Order", verbose_name="Платеж", on_delete=models.CASCADE)
+    order = models.ForeignKey(
+        "Order",
+        verbose_name="Платеж",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        default=None,
+    )
     subscription = models.ForeignKey(
         Subscription, verbose_name="Подписка", on_delete=models.CASCADE
     )
