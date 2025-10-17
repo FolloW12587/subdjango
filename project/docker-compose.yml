@@ -1,17 +1,15 @@
 services:
-
   django_admin:
     build: .
     pull_policy: build
     restart: always
     cpus: '1.0'
-    expose:
-      - '8000'
+    ports:
+      - "8081:8000"
     networks:
-      - guacnet
-      - django_network
+      django_network:
     environment:
-      - POSTGRES_HOST=psql_db
+      POSTGRES_HOST: psql_db
     env_file:
       - ./.env
     logging:
@@ -24,20 +22,15 @@ services:
     command: >
       sh -c "python manage.py collectstatic --no-input &&
              gunicorn -w 1 project.wsgi:application --bind 0.0.0.0:8000"
-    labels:
-      - "VIRTUAL_HOST=django.anton-s.xyz"
-      - "LETSENCRYPT_HOST=django.anton-s.xyz"
-      - "LETSENCRYPT_EMAIL=admin@anton-s.xyz"
 
 volumes:
   static:
+    external: true
   media:
+    external: true
 
 
 networks:
-  guacnet:
-    name: guacamole_guacnet
-    external: true
   django_network:
     name: local_network
     external: true
