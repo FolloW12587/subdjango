@@ -5,7 +5,7 @@ from main.models import Users
 
 
 class Subscription(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField("Название", max_length=255)
     wb_product_limit = models.IntegerField("Лимит на продукты вб")
     ozon_product_limit = models.IntegerField("Лимит на продукты озона")
@@ -18,11 +18,14 @@ class Subscription(models.Model):
         verbose_name_plural = "Подписки"
 
     def __str__(self):
-        return f"<Подписка {self.name} (wb: {self.wb_product_limit}, ozon: {self.ozon_product_limit}) за {self.price_rub}"
+        return (
+            f"<Подписка {self.name} (wb: {self.wb_product_limit}, "
+            f"ozon: {self.ozon_product_limit}) за {self.price_rub}"
+        )
 
 
 class UserSubscription(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(
         Users, verbose_name="Пользователь", on_delete=models.CASCADE
     )
@@ -50,7 +53,7 @@ class UserSubscription(models.Model):
 class Transaction(models.Model):
     PAYMENT_PROVIDERS = (("YOOMONEY", "Юмани"),)
 
-    id = models.IntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(
         Users, verbose_name="Пользователь", on_delete=models.CASCADE
     )

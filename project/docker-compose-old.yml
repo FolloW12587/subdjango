@@ -45,19 +45,19 @@ services:
       options:
           max-size: "20m"
   
-  certbot:
-    restart: always
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - /var/www/letsencrypt:/var/www/letsencrypt
-    entrypoint: >
-      sh -c "trap exit TERM;
-             while :; do
-               certbot renew --webroot -w /var/www/letsencrypt --quiet;
-               sleep 12h & wait $${!};
-             done"
+  # certbot:
+  #   restart: always
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   volumes:
+  #     - /etc/letsencrypt:/etc/letsencrypt
+  #     - /var/www/letsencrypt:/var/www/letsencrypt
+  #   entrypoint: >
+  #     sh -c "trap exit TERM;
+  #            while :; do
+  #              certbot renew --webroot -w /var/www/letsencrypt --quiet;
+  #              sleep 12h & wait $${!};
+  #            done"
 
 volumes:
   static:
