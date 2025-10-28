@@ -61,7 +61,7 @@ class Transaction(models.Model):
 
     provider = models.CharField("Провайдер", choices=PAYMENT_PROVIDERS, max_length=63)
     provider_txn_id = models.CharField(
-        "Идентификатор в платежной систерме", max_length=255
+        "Идентификатор в платежной системе", max_length=255
     )
 
     amount = models.FloatField("Количество")
